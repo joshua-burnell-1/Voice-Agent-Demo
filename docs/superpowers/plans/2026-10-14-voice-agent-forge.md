@@ -16,6 +16,7 @@
 - Every new source file starts with a 2-line `ABOUTME:` comment (Python `#`, YAML `#`, Markdown `<!-- -->`, Jinja templates `{# #}`, JS/TS `//`). JSON files are exempt (no comment syntax).
 - Never log PII. Caller utterances may only be written to gitignored files under `logs/`, never to stdout logging.
 - No reference to Josh's employer (term list lives only in the untracked `SCRUB_TERMS` env var; see Task 16), internal systems, real customer data, or real appliance brands (Whirlpool, GE, Samsung, LG, Bosch, Maytag, KitchenAid, Frigidaire, Electrolux, Kenmore, Miele, Amana, Haier) anywhere in the repo. Invented brands only: Aurelle, Quenda, Halvorn.
+- Remote: `origin` = https://github.com/joshua-burnell-1/Voice-Agent-Demo.git, which is PUBLIC from the first push. Before every push, run the secret / private-term scan (Task 16's checks; before Task 16 exists, at minimum grep tracked files and `git log -p` for key prefixes and `$SCRUB_TERMS`).
 - Commit messages: conventional style (`feat:`, `test:`, `docs:`, `chore:`), and NO `Co-Authored-By` or Anthropic attribution lines (Josh's standing rule).
 - Never use `--no-verify`. No emojis in code, docs, or UI.
 - Accessibility is a release blocker for the web app: WCAG 2.1 AA, keyboard operable, ARIA live regions for transcripts, color never the only signal; run `/accessibility` after Tasks 12 and 14.
@@ -5293,13 +5294,14 @@ git add scripts/scrub_check.sh
 git commit -m "chore: pre-publish scrub check"
 ```
 
-- [ ] **Step 4: Print (do not run) the publish commands for Josh to confirm**
+- [ ] **Step 4: Print (do not run) the final push and repo-polish commands for Josh to confirm**
 
+The repo already exists (public) as `origin`. The release push and metadata:
 ```bash
-gh repo create joshua-burnell-1/voice-agent-forge --public --source . --remote origin \
-  --description "Open-source, zero-API-cost voice agent harness: Moshi speech-to-speech vs a Pipecat cascade, with tool calling, RAG, and evals"
-git push -u origin main
-gh repo edit --add-topic voice-agents --add-topic speech-to-speech --add-topic moshi --add-topic pipecat --add-topic rag --add-topic local-llm
+git push origin main
+gh repo edit joshua-burnell-1/Voice-Agent-Demo \
+  --description "Open-source, zero-API-cost voice agent harness: Moshi speech-to-speech vs a Pipecat cascade, with tool calling, RAG, and evals" \
+  --add-topic voice-agents --add-topic speech-to-speech --add-topic moshi --add-topic pipecat --add-topic rag --add-topic local-llm
 ```
 
 ---
